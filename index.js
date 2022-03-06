@@ -52,7 +52,7 @@ const questions = [
         name: 'license',
         message:
         'Select License: ',
-        choices: ['Apache License 2.0','GNU GPLv3','GNU GPLv2','MIT','ISC']
+        choices: ['Apache License 2.0','GNU GPLv3','GNU GPLv2','MIT','ISC', 'Other/None']
     },
     { 
         type: 'input',
@@ -70,13 +70,31 @@ const questions = [
         type: 'input',
         name: 'email',
         message:
-        'Contact Email: '
+        'Contact Email: ',
+        validate: emailInput => {
+            if(emailInput)
+            {
+                return true;
+            }else {
+                console.log('Please enter a contact email');
+                return false;
+            }
+        }
     },
     { 
         type: 'input',
         name: 'gitHubName',
         message:
-        'GitHub UserName: '
+        'GitHub UserName: ',
+        validate: gitHubInput => {
+            if(gitHubInput)
+            {
+                return true;
+            }else {
+                console.log('Please enter your gitHub username');
+                return false;
+            }
+        }
     }];
 
 // TODO: Create a function to write README file

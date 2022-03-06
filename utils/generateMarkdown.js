@@ -1,7 +1,7 @@
 // TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
 function renderLicenseBadge(license) {
-  if(license){
+  if(license!='Other/None'){
     if(license == 'Apache License 2.0'){
       return `[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](${renderLicenseLink(license)})`;
     }else if(license == 'GNU GPLv3'){
@@ -15,7 +15,7 @@ function renderLicenseBadge(license) {
       return `[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](${renderLicenseLink(license)})`;
     }
   }else {
-    return '';
+    return ' ';
   }
 }
 
@@ -36,52 +36,123 @@ function renderLicenseLink(license) {
       return 'https://opensource.org/licenses/ISC';
     }
   }else{
-    return '';
+    return ' ';
   }
 }
 
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
 function renderLicenseSection(license) {
-  return `
-  This project is licensed under [${license}](${renderLicenseLink(license)})
-  `;
+  if(license!='Other/None'){
+    return `
+    ## License
+    ${renderLicenseBadge(license)}
+    This project is licensed under [${license}](${renderLicenseLink(license)})
+    `;
+  }else{
+    return ` `;
+  }
+}
+
+function renderInstallationSection(installation)
+{ 
+  if(installation)
+  {
+    return`## Installation
+    ${installation}`;
+  }else{
+    return ` `;
+  }
+}
+
+function renderUsageSection(usage)
+{
+  if(usage)
+  {
+    return`## Usage
+    ${usage}
+    `;
+  }else{
+    return ` `;
+  }
+}
+
+function renderContributeSection(contributing)
+{
+  if(contributing)
+  {
+    return`## How to Contribute
+    ${contributing}
+    `;
+  }else{
+    return ` `;
+  }
+}
+
+function renderTestingSection(tests)
+{
+  if(tests)
+  {
+    return`## Tests
+    ${tests}
+    `;
+  }else{
+    return ` `;
+  }
+}
+
+function renderTableOfContents(data)
+{
+  let returnStr = ``;
+  if(data.installation)
+  {
+    returnStr+=`- [Installation](#installation)\n`;
+  }
+  if(data.usage)
+  {
+    returnStr+=`- [Usage](#usage)\n`;
+  }
+  if(data.license!='Other/None')
+  {
+    returnStr+=`- [License](#license)\n`;
+  }
+  if(data.contributing)
+  {
+    returnStr+=`- [How to Contribute](#how-to-contribute)\n`;
+  }
+  if(data.tests)
+  {
+    returnStr+=`- [Tests](#tests)\n`;
+  }
+  returnStr+=`- [Questions](#Questions)\n`;
+
+  return returnStr;
 }
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
-  return `# ${data.title}
-  ${renderLicenseBadge(data.license)}  
-  ${data.description}
+  return `
+# ${data.title}
+${renderLicenseBadge(data.license)}  
+${data.description}
 
-  ## Table of Contents  
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [License](#license)
-  - [How to Contribute](#how-to-contribute)
-  - [Tests](#tests)
-  - [Questions](#Questions)
+## Table of Contents  
+${renderTableOfContents(data)}
 
-  ## Installation
-  ${data.installation}
+${renderInstallationSection(data.installation)}
 
-  ## Usage
-  ${data.usage}
+${renderUsageSection(data.usage)}
 
-  ## License 
-  ${renderLicenseBadge(data.license)}
-  ${renderLicenseSection(data.license)}
+${renderLicenseSection(data.license)}
 
-  ## How to Contribute
-  ${data.contributing}
+${renderContributeSection(data.contributing)}
 
-  ## Tests
-  ${data.tests}
+${renderTestingSection(data.tests)}
 
-  ## Questions
-  Points of contact for any further questions!  
-  Email: ${data.email}  
-  Link to GitHub Profile: https://github.com/${data.gitHubName}
+## Questions
+Points of contact for any further questions!  
+[Email](${data.email})  
+[GitHub](https://github.com/${data.gitHubName})
 
 `;
 }
